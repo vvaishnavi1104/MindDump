@@ -82,7 +82,7 @@ This project is open-source under the [MIT License](LICENSE).
 
 ## 🙋‍♀️ Author
 
-**Vaishnavi V** – [GitHub](https://github.com/your-username)
+**Vaishnavi V** – [GitHub](https://github.com/vvaishnavi1104)
 Feel free to reach out if you'd like to collaborate or fork it for your own use!
 
 ```
