@@ -41,7 +41,7 @@ If no keyword is matched, the entry is tagged as `General`.
 ## 📦 Setup Instructions
 
 1. **Clone the repository**:
-git clone https://github.com/your-username/minddump.git
+git clone https://github.com/vvaishnavi1104/MindDump.git
 cd minddump
 
 2. **Install dependencies**:
