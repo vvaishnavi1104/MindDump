@@ -2,6 +2,9 @@ from flask import Flask, render_template, request, redirect
 import json
 import os
 from datetime import datetime
+import os
+print("Running Flask from:", os.getcwd())
+
 
 app = Flask(__name__)
 
@@ -46,10 +49,12 @@ def index():
         if text.strip():
             tags = auto_tag(text)
             entry = {
+                "id": int(datetime.now().timestamp() * 1000),  # unique ID
                 "text": text,
                 "tags": tags,
                 "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M")
             }
+
             data.append(entry)
             save_data(data)
         return redirect("/")
@@ -60,7 +65,17 @@ def index():
         for tag in entry["tags"]:
             grouped.setdefault(tag, []).append(entry)
 
-    return render_template("index.html", grouped=grouped)
+    return render_template("index.html", grouped_thoughts=grouped)
+@app.route("/delete/<int:entry_id>", methods=["POST"])
+def delete_entry(entry_id):
+    data = load_data()
+    # Keep only entries that are NOT the one we want to delete
+    data = [entry for entry in data if entry["id"] != entry_id]
+    save_data(data)
+    return redirect("/")
+
+
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port = 5050)
+
