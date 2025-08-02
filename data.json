@@ -1,24 +1,27 @@
 [
   {
-    "text": "Finish final year project report \u2014 deadline next week\r\n",
+    "id": 1754155947617,
+    "text": "Finish final year project report \\u2014 deadline next week\r\n",
     "tags": [
       "Work",
       "Urgent"
     ],
-    "timestamp": "2025-07-31 19:40"
+    "timestamp": "2025-08-02 23:02"
   },
   {
-    "text": "\u201cIdea: build an app that converts voice to code.",
+    "id": 1754155972108,
+    "text": "Idea: build an app that converts voice to code.\r\n",
     "tags": [
       "Idea"
     ],
-    "timestamp": "2025-07-31 19:41"
+    "timestamp": "2025-08-02 23:02"
   },
   {
-    "text": "\u201cFix broken light in the study room.\u201d\r\n",
+    "id": 1754155984188,
+    "text": "Fix broken light in the study room.",
     "tags": [
       "General"
     ],
-    "timestamp": "2025-07-31 19:41"
+    "timestamp": "2025-08-02 23:03"
   }
 ]
