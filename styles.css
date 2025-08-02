@@ -70,3 +70,24 @@ li {
     color: gray;
     margin-right: 10px;
 }
+.delete-button {
+    background: none;
+    border: none;
+    color: #ff5c5c;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    transition: color 0.3s ease;
+}
+
+.delete-button:hover {
+    color: #ff1c1c;
+}
+
+.entry {
+    position: relative; /* So the delete button aligns top-right */
+    padding-right: 30px; /* Give space so text doesn't collide with button */
+}
+
