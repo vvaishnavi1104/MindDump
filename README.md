@@ -69,7 +69,8 @@ http://localhost:5000
 
 ## 📸 Screenshot
 
-<img width="991" height="539" alt="Screenshot 2025-07-31 221023" src="https://github.com/user-attachments/assets/b403ee38-5209-4310-ae28-18bed9cc5757" />
+<img width="1660" height="715" alt="Screenshot 2025-08-02 234910" src="https://github.com/user-attachments/assets/ec5711a6-5cff-4c5a-b7a1-e5e7e4c29599" />
+
 
 
 ---
