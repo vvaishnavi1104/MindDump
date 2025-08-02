@@ -1,30 +1,347 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MindDump</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            /* Dark Mode Variables */
+            --bg-dark: #0D0D0D;
+            --container-dark: rgba(255, 255, 255, 0.07);
+            --text-dark: #E0E0E0;
+            --heading-dark: #FFFFFF;
+            --entry-dark: #1C1C1C;
+            --border-dark: #3A3A3A;
+            --button-bg-dark: #6366F1; /* Indigo 500 */
+            --button-hover-dark: #4F46E5; /* Indigo 600 */
+            --shadow-dark: rgba(0,0,0,0.4);
+            --timestamp-dark: #999;
+            --toggle-bg-dark: #333;
+            --toggle-text-dark: #fff;
+
+            /* Light Mode Variables */
+            --bg-light: #F8F8F8;
+            --container-light: rgba(255, 255, 255, 0.95);
+            --text-light: #333333;
+            --heading-light: #1A1A1A;
+            --entry-light: #FFFFFF;
+            --border-light: #E0E0E0;
+            --button-bg-light: #6366F1;
+            --button-hover-light: #4F46E5;
+            --shadow-light: rgba(0,0,0,0.08);
+            --timestamp-light: #777;
+            --toggle-bg-light: #E0E0E0;
+            --toggle-text-light: #111;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-dark);
+            transition: background 0.4s ease, color 0.4s ease;
+            line-height: 1.6;
+        }
+
+        body.light {
+            background: var(--bg-light);
+            color: var(--text-light);
+        }
+
+        .container {
+            max-width: 760px;
+            margin: 3rem auto;
+            padding: 2.5rem;
+            background: var(--container-dark);
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 12px 30px var(--shadow-dark);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
+        }
+
+        body.light .container {
+            background: var(--container-light);
+            box-shadow: 0 12px 30px var(--shadow-light);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            font-weight: 700;
+            font-size: 2.8rem;
+            margin-bottom: 2rem;
+            color: var(--heading-dark);
+            letter-spacing: -0.05em;
+            transition: color 0.4s ease;
+        }
+
+        body.light h1 {
+            color: var(--heading-light);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column; /* Stack on small screens */
+            gap: 15px;
+            margin-bottom: 2.5rem;
+        }
+
+        textarea {
+            flex: 1;
+            padding: 1rem 1.2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-dark);
+            background: var(--entry-dark);
+            color: var(--text-dark);
+            resize: vertical;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            min-height: 90px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.4s ease, color 0.4s ease;
+        }
+
+        body.light textarea {
+            background: var(--entry-light);
+            color: var(--text-light);
+            border-color: var(--border-light);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--button-bg-dark); /* Use accent color */
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+
+        button {
+            background: var(--button-bg-dark);
+            color: white;
+            padding: 0.9rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px; /* Space for icon */
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--button-hover-dark);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .tag-group {
+            margin-bottom: 2.5rem;
+        }
+
+        .tag-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border-dark);
+            padding-bottom: 8px;
+            color: var(--heading-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: border-color 0.4s ease, color 0.4s ease;
+        }
+
+        body.light .tag-title {
+            border-color: var(--border-light);
+            color: var(--heading-light);
+        }
+
+        .entry {
+            background: var(--entry-dark);
+            padding: 1.2rem;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.4s ease;
+        }
+
+        body.light .entry {
+            background: var(--entry-light);
+            box-shadow: 0 4px 15px var(--shadow-light);
+            border: 1px solid var(--border-light);
+        }
+
+        .entry:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        body.light .entry:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+
+        .timestamp {
+            font-size: 0.85rem;
+            color: var(--timestamp-dark);
+            margin-top: 0.8rem;
+            font-style: italic;
+            transition: color 0.4s ease;
+        }
+
+        body.light .timestamp {
+            color: var(--timestamp-light);
+        }
+
+        .theme-toggle {
+            position: fixed; /* Use fixed for better access */
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--toggle-bg-dark);
+            border: none;
+            color: var(--toggle-text-dark);
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px; /* Space for icon and text */
+            transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+        }
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+        }
+        .theme-toggle:active {
+            transform: translateY(0);
+        }
+
+        body.light .theme-toggle {
+            background: var(--toggle-bg-light);
+            color: var(--toggle-text-light);
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 600px) {
+            form {
+                flex-direction: row; /* Back to row on larger screens */
+            }
+            textarea {
+                min-height: 60px; /* Adjust min-height for wider screens */
+            }
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 2rem 1rem;
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            .theme-toggle {
+                top: 1rem;
+                right: 1rem;
+                padding: 0.5rem 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <span id="theme-icon" class="fas fa-moon"></span>
+        <span id="theme-text">Dark Mode</span>
+    </button>
+
     <div class="container">
         <h1>🧠 MindDump</h1>
         <form method="POST">
-            <textarea name="thought" placeholder="What's on your mind?" required></textarea>
-            <button type="submit">Dump It</button>
+            <textarea name="thought" rows="3" placeholder="Write your thought here..." required></textarea>
+            <button type="submit">
+                <i class="fas fa-save"></i> Save
+            </button>
         </form>
 
-        {% for tag, entries in grouped.items() %}
-        <div class="tag-group">
-            <h2>{{ tag }}</h2>
-            <ul>
-                {% for entry in entries %}
-                <li>
-                    <span class="timestamp">{{ entry.timestamp }}</span>
-                    {{ entry.text }}
-                </li>
-                {% endfor %}
-            </ul>
+
+{% if grouped_thoughts|length == 0 %}
+    <p style="text-align: center; color: var(--timestamp-dark); font-style: italic; margin-top: 2rem;">
+        No thoughts yet. Start writing something!
+    </p>
+{% endif %}
+
+
+
+        {% for tag, entries in grouped_thoughts.items() %}
+    <div class="tag-group">
+        <div class="tag-title">
+            <i class="fas fa-tag"></i> #{{ tag }}
         </div>
+        {% for entry in entries %}
+            <div class="entry">
+                <form action="/delete/{{ entry.id }}" method="post" style="display:inline;">
+                    <button type="submit" class="delete-button" title="Delete">×</button>
+                </form>
+
+                {{ entry.text }}
+                <div class="timestamp">{{ entry.timestamp }}</div>
+            </div>
         {% endfor %}
     </div>
+{% endfor %}
+
+    </div>
+
+    <script>
+        const themeIcon = document.getElementById('theme-icon');
+        const themeText = document.getElementById('theme-text');
+
+        const updateThemeToggle = (isLight) => {
+            if (isLight) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                themeText.textContent = 'Light Mode';
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                themeText.textContent = 'Dark Mode';
+            }
+        };
+
+        const toggleTheme = () => {
+            document.body.classList.toggle('light');
+            const isLight = document.body.classList.contains('light');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            updateThemeToggle(isLight);
+        };
+
+        // Initialize theme on load
+        window.onload = () => {
+            const theme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (theme === 'light') {
+                document.body.classList.add('light');
+                updateThemeToggle(true);
+            } else if (theme === 'dark') {
+                // Do nothing, default is dark
+                updateThemeToggle(false);
+            } else if (prefersDark) {
+                // If no preference stored, check system preference
+                // Default is dark mode, so only need to update if system prefers light
+                updateThemeToggle(false); // Initially dark
+            } else {
+                // Fallback to light if system doesn't prefer dark and no stored preference
+                document.body.classList.add('light');
+                updateThemeToggle(true);
+            }
+        };
+    </script>
 </body>
 </html>
+
